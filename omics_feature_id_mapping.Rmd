@@ -1,0 +1,455 @@
+---
+title: "Omics feature ID mapping with BridgeDb and other tools"
+author: "Anna Niehues^[Radboud university medical center, Anna.Niehues@radboudumc.nl]"
+output:
+  html_document:
+    df_print: paged
+bibliography: references.bib
+---
+
+This notebook contains examples of omics feature (proteins, metabolites) 
+database identifier mapping, retrieving relationships using ontologies, and 
+retrieving database entries.
+
+The examples make use of different R (`webchem`, `ontologyIndex`) and 
+R/Bioconductor (`BridgDbR`, `biodbChebi`, `biodbHmdb`) libraries.
+
+
+## Definition of example omics feature identifiers
+
+```{r}
+metabolite_ids <- data.frame(CURIE = c(
+  "chebi:CHEBI:17027", "chebi:CHEBI:17917", "chebi:CHEBI:86490", 
+  "chebi:CHEBI:86492", "hmdb:HMDB0000001", "hmdb:HMDB0000161", 
+  "hmdb:HMDB0000172", "hmdb:HMDB0000271", "hmdb:HMDB0000479", 
+  "hmdb:HMDB0000510", "hmdb:HMDB0000687", "hmdb:HMDB0000824", 
+  "hmdb:HMDB0000883", "hmdb:HMDB0001263", "hmdb:HMDB0002366", 
+  "hmdb:HMDB0013133", "hmdb:HMDB0240760"))
+	
+protein_ids <- data.frame(CURIE = c(
+	"uniprot:A5PL27", "uniprot:B7WNR0", "uniprot:C0JYY2", "uniprot:P01023", 
+	"uniprot:P01024", "uniprot:P0C0L5"))
+	
+lipidblast_names <- data.frame(name = c(
+  "DG 18:1_18:1", "DG 18:1_18:2", "LPC 24:0-SN1", "LPC O-24:1", "PC 14:0_14:0", 
+  "PC 16:0_18:1", "PC 16:0_18:2", "PC 16:0_20:3", "PC 16:0_20:4", 
+  "PC 18:0_18:2", "SM 8:0;2O/24:0", "SM 8:1;2O/26:0"))
+```
+
+
+## Visit database entry using identifiers.org 
+
+https://identifiers.org/ + Compact URI (CURIE)
+
+Examples:
+* https://identifiers.org/hmdb:HMDB0000883
+* https://identifiers.org/CHEBI:86492
+* https://identifiers.org/uniprot:C0JYY2
+* https://identifiers.org/pubchem.compound:6287
+
+
+## BridgeDb for metabolites
+
+### Download BridgeDb database
+
+See BridgeDb [@BridgeDb, @BridgeDbR] website: https://BridgeDb.github.io/ 
+
+See tutorial: https://www.bioconductor.org/packages/release/bioc/vignettes/BridgeDbR/inst/doc/tutorial.html#4_Metabolomics
+
+Mapping database: Sl, De (2022): Metabolite BridgeDb ID Mapping Database (20220707). figshare. Dataset. https://doi.org/10.6084/m9.figshare.20260911.v1
+
+```{r}
+library(BridgeDbR)
+
+mtbl_db_path <- "BridgeDb/metabolites_20220707.bridge"
+tryCatch({
+  metabolite_mapper <- loadDatabase(mtbl_db_path)
+}, error = function(error_message) {
+  message(error_message)
+  message("\nPlease download Metabolite BridgeDb ID Mapping Database from 
+          https://www.bridgedb.org/data/gene_database/")
+})
+```
+
+### Use `BridgeDbR` to map metabolite identifiers
+
+See https://www.bridgedb.org/pages/system-codes.html for resource codes
+
+Metabolite resources
+* Ca	CAS
+* Ce	ChEBI
+* Cs	ChemSpider
+* Cl	ChEMBL compound
+* Dr	DrugBank
+* Ch	HMDB
+* Gpl	Guide to Pharmacology Ligand ID (aka IUPHAR)
+* Ik	InChIKey
+* Ck	KEGG Compound
+* Kd	KEGG Drug
+* Kl	KEGG Glycan
+* Lm	LIPID MAPS
+* Lb	LipidBank
+* Pgd	PharmGKB Drug
+* Cpc	PubChem Compound
+* Cps	PubChem Substance
+* Sl	SwissLipids # NOTE: not supported
+* Td	TTD Drug
+* Wd	Wikidata
+* Wi	Wikipedia
+
+#### Map HMDB ID to ChEBI ID defining source database
+
+```{r}
+map(metabolite_mapper, source = "Ch", identifier = "HMDB0000883", target = "Ce")
+```
+
+#### Map HMDB ID to ChEBI ID using CURIE
+
+```{r}
+map(metabolite_mapper, compactIdentifier = "hmdb:HMDB0000883", target = "Ce")
+```
+
+#### Map multiple IDs to different databases
+
+```{r}
+# map to HMDB ID
+metabolite_ids$HMDB <- apply(metabolite_ids, 1, function(row) {
+  tryCatch({
+    mapping <- map(metabolite_mapper, compactIdentifier = row[["CURIE"]],
+                   target = "Ch")$mapping
+    # map returns both old (5-digit) and new (7-digit) HMDB IDs
+    if (length(mapping) > 1) {
+      mapping <- mapping[sapply(mapping, nchar) == 11]
+    }
+    mapping <- mapping[[1]]
+  # if map() yields no results it causes an error - return NA
+  }, error = function(error_meesage) {return(NA)})
+})
+
+# map to ChEBI ID
+metabolite_ids$ChEBI <- apply(metabolite_ids, 1, function(row) {
+  tryCatch({
+    mapping <- map(metabolite_mapper, compactIdentifier = row[["CURIE"]],
+                   target = "Ce")$mapping
+    # map returns ChEBI IDs in two formats: "16414" and "CHEBI:16414" - choose
+    mapping <- mapping[!sapply(mapping, startsWith, prefix = "CHEBI:")]
+    mapping <- mapping[[1]]
+  }, error = function(error_meesage) {return(NA)})
+})
+
+# map to KEGG Compound ID
+metabolite_ids$KEGG.Compound <- apply(metabolite_ids, 1, function(row) {
+  tryCatch({
+    mapping <- map(metabolite_mapper, compactIdentifier = row[["CURIE"]],
+                   target = "Ck")$mapping
+    mapping <- mapping[[1]]
+  }, error = function(error_meesage) {return(NA)})
+})
+
+# map to PubChem Compound ID
+metabolite_ids$PubChem.Compound <- apply(metabolite_ids, 1, function(row) {
+  tryCatch({
+    mapping <- map(metabolite_mapper, compactIdentifier = row[["CURIE"]],
+                   target = "Cpc")$mapping
+    mapping <- mapping[[1]]
+  }, error = function(error_meesage) {return(NA)})
+})
+
+metabolite_ids
+```
+
+
+## Use `biodbChebi` to retrieve additional metabolite information
+
+[@biodbChebi]
+
+https://www.bioconductor.org/packages/release/bioc/html/biodbChebi.html
+
+https://bioconductor.org/packages/devel/bioc/vignettes/biodb/inst/doc/details.html 
+
+```{r}
+library(biodbChebi)
+
+# create instance of biodb class BiodbMain
+mybiodb <- biodb::newInst()
+# create connector to ChEBI database
+biodb_conn <- mybiodb$getFactory()$createConn("chebi")
+biodb_conn$checkDb()
+
+```
+
+### Get ChEBI database entry for given ChEBI ID
+
+Data frame columns to be returned can be defined - see https://bioconductor.org/packages/devel/bioc/vignettes/biodb/inst/doc/details.html 
+
+```{r}
+biodb_conn$getEntry("16414")$getFieldsAsDataframe()
+```
+
+
+### Search by name
+
+Return ChEBI IDs with (partial) match of name (names are not unique)
+
+```{r}
+biodb_conn$searchCompound(name = "L-valine", max.results = 5)
+```
+
+
+
+```{r}
+# terminate biodb instance
+mybiodb$terminate()
+```
+
+
+## Use `biodbHmdb` to retrieve additional metabolite information
+
+```{r}
+# library(biodbHmdb)
+# 
+# # create instance of biodb class BiodbMain
+# mybiodb <- biodb::newInst()
+# # create connector to HMDB database
+# biodb_conn <- mybiodb$getFactory()$createConn("hmdb.metabolites")
+# biodb_conn$checkDb() # downloading and extracting database takes multiple hours
+# 
+# citation("biodbHmdb")
+```
+
+Get HMDB database entry for given HMDB ID
+
+```{r}
+# biodb_conn$getEntry("HMDB0000001")$getFieldsAsDataframe()
+```
+
+
+```{r}
+# # terminate biodb instance
+# mybiodb$terminate()
+```
+
+
+## Use `webchem` to retrieve information from PubChem 
+
+`webchem` [@webchem] is linked to multiple databases
+
+See options at https://docs.ropensci.org/webchem/reference/index.html
+
+Example: get entry for PubChem Compound ID (CID)
+
+```{r}
+library(webchem)
+
+pc_prop("6287") 
+```
+
+
+## Challenges
+
+### Make use of hierarchical relationships defined in ChEBi ontology
+
+One-to-many mappings for metabolites with lower level of identification (including multiple possible isoforms)
+
+Get ChEBI ontology using `ontologyIndex` [@ontologyIndex]
+
+https://cran.r-project.org/web/packages/ontologyIndex/vignettes/intro-to-ontologyX.html
+
+```{r}
+library(ontologyIndex)
+
+# OBO is recommended by ontologyIndex
+# https://cran.r-project.org/web/packages/ontologyIndex/vignettes/reading-ontologies.html
+chebi_obo_purl <- "http://purl.obolibrary.org/obo/chebi.obo" 
+chebi_obo_file <- "ontologies/chebi.obo"
+if (!file.exists(chebi_obo_file)) { # download file
+  download.file(chebi_obo_purl, chebi_obo_file)
+}
+# read ontology from obo file
+chebi_ontology <- get_ontology(chebi_obo_file)
+
+```
+
+
+Query ChEBI ontology
+
+```{r}
+chebi_ontology$name["CHEBI:86492"]
+```
+
+CHEBI:86492 cannot be mapped to HMDB. The entry comprises multiple possible molecular structures. Can we retrieve them with the ontology?
+
+```{r}
+# get children terms
+children <- get_term_property(
+  ontology = chebi_ontology,
+  property_name = "children",
+  term = "CHEBI:86492",
+  as_names = T)
+children
+
+# map to HMDB using BridgeDb
+sapply(names(children), function(chebi_id) {
+    tryCatch({
+      mapping <- map(metabolite_mapper, source = "Ce", identifier = chebi_id,
+                     target = "Ch")$mapping
+    }, error = function(error_meesage) {return(NA)})
+  })
+```
+
+Parent terms can be retrieved too
+
+```{r}
+# get parent terms
+get_term_property(
+  ontology = chebi_ontology,
+  property_name = "parents",
+  term = "CHEBI:86492",
+  as_names = T)
+```
+
+Another example
+
+```{r}
+get_term_property(
+  ontology = chebi_ontology,
+  property_name = "parents",
+  term = "CHEBI:17917",
+  as_names = T)
+```
+
+
+
+
+### Map LipidBlast names to other databases (LipidMaps, HMDB)
+
+Idea: use SwissLipid [@SwissLipids] API to get SwissLipid ID base don LipidBlast name and map IDs using BridgeDB. Problem: BridgeDB currently doesn't support SwissLipids
+
+#### Search SwissLipid API
+
+See https://www.swisslipids.org/#/api 
+
+```{r}
+# search Swisslipids API
+base_url <- "https://www.swisslipids.org/api/index.php/"
+
+term <- "PC 14:0_14:0"
+query_url <- paste0(base_url, "search?term=", term, "&type=", NULL)
+
+query_result <- curl::curl_fetch_memory(URLencode(query_url))
+
+if(query_result$status_code == as.integer(200)) {
+  df <- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+}
+
+df
+```
+
+LipdBlast names and SwissLipid entity names are no exact matches. How can we assure that the match is correct?
+
+
+
+Are there alternative databases that could be searched? 
+* LIPID MAPS REST service https://www.lipidmaps.org/resources/rest
+* `webchem` (development version)
+
+#### Map UNIPROT IDs to genes
+
+Check https://www.bridgedb.org/data/gene_database/
+
+#### Map metabolites to pathways using WikiPathways SPARQL endpoint
+
+WikiPathways [@WikiPathwaysSlenter2018,@WikiPathwaysMartens2021]
+
+Adapted from https://github.com/BiGCAT-UM/Transcriptomics_Metabolomics_Analysis/tree/master/metabolomics_analysis/9-metabolite_pathway_analysis by D. Slenter and D.D. Sener
+
+Connect to SPARQL endpoint of WikiPathways, https://sparql.wikipathways.org/
+
+```{r}
+library(SPARQL)
+
+wikipathways_sparql <- "https://sparql.wikipathways.org/sparql"
+```
+
+
+```{r}
+## 1. Query metadata:
+queryMetadata <-
+"SELECT DISTINCT ?dataset (str(?titleLit) as ?title) ?date ?license 
+WHERE {
+   ?dataset a void:Dataset ;
+   dcterms:title ?titleLit ;
+   dcterms:license ?license ;
+   pav:createdOn ?date .
+ }"
+
+#below code should be performed first to handle the ssl certificate error
+options(RCurlOptions = list(cainfo = paste0( tempdir() , "/cacert.pem" ), ssl.verifypeer = FALSE))
+resultsMetadata <- SPARQL(wikipathways_sparql,queryMetadata,curl_args=list(useragent=R.version.string))
+showresultsMetadata <- resultsMetadata$results
+remove(queryMetadata, resultsMetadata)
+```
+
+
+##### Query pathways by HMDB IDs
+
+```{r}
+##Add the HMDb prefix IRI in front of all IDs.
+query_IDs <- paste(
+  "ch:", metabolite_ids$HMDB[!is.na(metabolite_ids$HMDB)], sep = "")
+##Merge the individual entries in the vector into one string, separated by a space
+string_IDs <- paste(c(query_IDs), collapse = ' ')
+string_IDs
+```
+
+```{r}
+item1 = "PREFIX ch: <https://identifiers.org/hmdb/>
+PREFIX cur: <http://vocabularies.wikipathways.org/wp#Curation:>
+select distinct ?pathwayRes (str(?wpid) as ?pathway) (str(?title) as ?pathwayTitle) (count(distinct ?hmdbMetabolite) AS ?HMDBsInPWs) 
+(GROUP_CONCAT(DISTINCT fn:substring(?hmdbMetabolite,30);separator=' ') AS ?includedHMDBs)
+where {
+VALUES ?hmdbMetabolite {"
+
+item2 = "}
+ 
+ ?datanode	a wp:Metabolite ;          
+           	wp:bdbHmdb  ?hmdbMetabolite ;
+    		dcterms:isPartOf ?pathwayRes .
+    		
+ ?pathwayRes a wp:Pathway ;
+             wp:organismName 'Homo sapiens' ; 
+    		dcterms:identifier ?wpid ;
+    		dc:title ?title .
+    		
+  #?pathwayRes wp:ontologyTag cur:Reactome_Approved . 
+  ?pathwayRes wp:ontologyTag cur:AnalysisCollection .   		
+}
+ORDER BY DESC(?HMDBsInPWs)"
+
+query_CombinePWs <- paste(item1, string_IDs, item2)
+remove(item1, item2)
+query_CombinePWs
+```
+
+```{r}
+results_CombinePWs <- SPARQL(wikipathways_sparql, query_CombinePWs, 
+                             curl_args = list(useragent = R.version.string))
+showresults_CombinePWs <- results_CombinePWs$results
+remove(query_CombinePWs,results_CombinePWs)
+showresults_CombinePWs
+```
+
+
+
+##### Query by ChEBI IDs?
+
+
+## Session information
+
+```{r}
+sessionInfo()
+```
+
+## References
+
+
