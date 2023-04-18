@@ -6,3 +6,5 @@ BridgeDb/
 ontologies/
 *.nb.html
 renv/library/
+*.log
+

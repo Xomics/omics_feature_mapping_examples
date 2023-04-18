@@ -1649,7 +1649,7 @@ other tools</h1>
 </div>
 
 
-<p>This notebook contains examples of omics feature (genes, proteins,
+<p>This notebook contains examples of omics feature (proteins,
 metabolites) database identifier mapping, retrieving relationships using
 ontologies, and retrieving database entries.</p>
 <p>The examples make use of different R (<code>webchem</code>,
@@ -1677,7 +1677,13 @@ lipidblast_names &lt;- data.frame(name = c(
 <div id="visit-database-entry-using-identifiers.org" class="section level2">
 <h2>Visit database entry using identifiers.org</h2>
 <p><a href="https://identifiers.org/" class="uri">https://identifiers.org/</a> + Compact URI (CURIE)</p>
-<p>Examples: * <a href="https://identifiers.org/hmdb:HMDB0000883" class="uri">https://identifiers.org/hmdb:HMDB0000883</a> * <a href="https://identifiers.org/CHEBI:86492" class="uri">https://identifiers.org/CHEBI:86492</a> * <a href="https://identifiers.org/uniprot:C0JYY2" class="uri">https://identifiers.org/uniprot:C0JYY2</a> * <a href="https://identifiers.org/pubchem.compound:6287" class="uri">https://identifiers.org/pubchem.compound:6287</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://identifiers.org/hmdb:HMDB0000883" class="uri">https://identifiers.org/hmdb:HMDB0000883</a></li>
+<li><a href="https://identifiers.org/CHEBI:86492" class="uri">https://identifiers.org/CHEBI:86492</a></li>
+<li><a href="https://identifiers.org/uniprot:C0JYY2" class="uri">https://identifiers.org/uniprot:C0JYY2</a></li>
+<li><a href="https://identifiers.org/pubchem.compound:6287" class="uri">https://identifiers.org/pubchem.compound:6287</a></li>
+</ul>
 </div>
 <div id="bridgedb-for-metabolites" class="section level2">
 <h2>BridgeDb for metabolites</h2>
@@ -1703,12 +1709,29 @@ tryCatch({
 <h3>Use <code>BridgeDbR</code> to map metabolite identifiers</h3>
 <p>See <a href="https://www.bridgedb.org/pages/system-codes.html" class="uri">https://www.bridgedb.org/pages/system-codes.html</a> for
 resource codes</p>
-<p>Metabolite resources * Ca CAS * Ce ChEBI * Cs ChemSpider * Cl ChEMBL
-compound * Dr DrugBank * Ch HMDB * Gpl Guide to Pharmacology Ligand ID
-(aka IUPHAR) * Ik InChIKey * Ck KEGG Compound * Kd KEGG Drug * Kl KEGG
-Glycan * Lm LIPID MAPS * Lb LipidBank * Pgd PharmGKB Drug * Cpc PubChem
-Compound * Cps PubChem Substance * Sl SwissLipids # NOTE: not supported
-* Td TTD Drug * Wd Wikidata * Wi Wikipedia</p>
+<p>Metabolite resources</p>
+<ul>
+<li>Ca CAS</li>
+<li>Ce ChEBI</li>
+<li>Cs ChemSpider</li>
+<li>Cl ChEMBL compound</li>
+<li>Dr DrugBank</li>
+<li>Ch HMDB</li>
+<li>Gpl Guide to Pharmacology Ligand ID (aka IUPHAR)</li>
+<li>Ik InChIKey</li>
+<li>Ck KEGG Compound</li>
+<li>Kd KEGG Drug</li>
+<li>Kl KEGG Glycan</li>
+<li>Lm LIPID MAPS</li>
+<li>Lb LipidBank</li>
+<li>Pgd PharmGKB Drug</li>
+<li>Cpc PubChem Compound</li>
+<li>Cps PubChem Substance</li>
+<li>Sl SwissLipids # NOTE: not supported</li>
+<li>Td TTD Drug</li>
+<li>Wd Wikidata</li>
+<li>Wi Wikipedia</li>
+</ul>
 <div id="map-hmdb-id-to-chebi-id-defining-source-database" class="section level4">
 <h4>Map HMDB ID to ChEBI ID defining source database</h4>
 <pre class="r"><code>map(metabolite_mapper, source = &quot;Ch&quot;, identifier = &quot;HMDB0000883&quot;, target = &quot;Ce&quot;)</code></pre>
@@ -1791,9 +1814,9 @@ information</h2>
 
 # create instance of biodb class BiodbMain
 mybiodb &lt;- biodb::newInst()</code></pre>
-<pre><code>## INFO  [12:03:55.313] Loading definitions from package biodb version 1.6.1.
-## INFO  [12:03:55.744] Loading definitions from package biodbChebi version 1.4.0.
-## INFO  [12:03:55.778] Loading definitions from package biodbHmdb version 1.4.0.</code></pre>
+<pre><code>## INFO  [10:46:35.396] Loading definitions from package biodb version 1.6.1.
+## INFO  [10:46:35.845] Loading definitions from package biodbChebi version 1.4.0.
+## INFO  [10:46:35.877] Loading definitions from package biodbHmdb version 1.4.0.</code></pre>
 <pre class="r"><code># create connector to ChEBI database
 biodb_conn &lt;- mybiodb$getFactory()$createConn(&quot;chebi&quot;)
 biodb_conn$checkDb()</code></pre>
@@ -1820,8 +1843,8 @@ unique)</p>
 <pre><code>## [1] &quot;142415&quot; &quot;16414&quot;  &quot;84129&quot;  &quot;21565&quot;  &quot;44212&quot;</code></pre>
 <pre class="r"><code># terminate biodb instance
 mybiodb$terminate()</code></pre>
-<pre><code>## INFO  [12:04:06.080] Closing BiodbMain instance...
-## INFO  [12:04:06.082] Connector &quot;chebi&quot; deleted.</code></pre>
+<pre><code>## INFO  [10:46:46.641] Closing BiodbMain instance...
+## INFO  [10:46:46.643] Connector &quot;chebi&quot; deleted.</code></pre>
 </div>
 </div>
 <div id="use-biodbhmdb-to-retrieve-additional-metabolite-information" class="section level2">
@@ -1962,9 +1985,1030 @@ df</code></pre>
 </div>
 <p>LipdBlast names and SwissLipid entity names are no exact matches. How
 can we assure that the match is correct?</p>
-<p>Are there alternative databases that could be searched? * LIPID MAPS
-REST service <a href="https://www.lipidmaps.org/resources/rest" class="uri">https://www.lipidmaps.org/resources/rest</a> *
-<code>webchem</code> (development version)</p>
+<p>Run on all queries</p>
+<pre class="r"><code>apply(lipidblast_names, 1, function(row) {
+  term &lt;- row[[&quot;name&quot;]]
+  query_url &lt;- paste0(base_url, &quot;search?term=&quot;, term, &quot;&amp;type=&quot;, NULL)
+  query_result &lt;- curl::curl_fetch_memory(URLencode(query_url))
+  if(query_result$status_code == as.integer(200)) {
+    df &lt;- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+    result &lt;- data.frame(LipidBlast = term,
+                         SwissLipids = df$entity_id,
+                         SwissLipids.name = df$entity_name)
+  } else {
+    result &lt;- data.frame(LipidBlast = term,
+                         SwissLipids = NA,
+                         SwissLipids.name = NA)
+  }
+  result
+})</code></pre>
+<pre><code>## [[1]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 DG 18:1_18:1 SLM:000309012    DG(18:1_18:1)
+## 
+## [[2]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 DG 18:1_18:2 SLM:000309013    DG(18:1_18:2)
+## 
+## [[3]]
+##     LipidBlast SwissLipids SwissLipids.name
+## 1 LPC 24:0-SN1          NA               NA
+## 
+## [[4]]
+##   LipidBlast   SwissLipids SwissLipids.name
+## 1 LPC O-24:1 SLM:000055397      LPC(O-24:1)
+## 
+## [[5]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 14:0_14:0 SLM:000063556    PC(14:0_14:0)
+## 
+## [[6]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 16:0_18:1 SLM:000063729    PC(16:0_18:1)
+## 
+## [[7]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 16:0_18:2 SLM:000063730    PC(16:0_18:2)
+## 
+## [[8]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 16:0_20:3 SLM:000063737    PC(16:0_20:3)
+## 
+## [[9]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 16:0_20:4 SLM:000063738    PC(16:0_20:4)
+## 
+## [[10]]
+##     LipidBlast   SwissLipids SwissLipids.name
+## 1 PC 18:0_18:2 SLM:000063936    PC(18:0_18:2)
+## 
+## [[11]]
+##       LipidBlast SwissLipids SwissLipids.name
+## 1 SM 8:0;2O/24:0          NA               NA
+## 
+## [[12]]
+##       LipidBlast SwissLipids SwissLipids.name
+## 1 SM 8:1;2O/26:0          NA               NA</code></pre>
+<p>Use SwissLipids API to map to other database IDs</p>
+<pre class="r"><code>query_url &lt;- paste0(base_url, &quot;mapping?from=SwissLipids&amp;to=LipidMaps&amp;ids=&quot;,
+                    &quot;SLM:000063556&quot;)
+
+query_result &lt;- curl::curl_fetch_memory(URLencode(query_url))
+
+if(query_result$status_code == as.integer(200)) {
+  df &lt;- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+  df
+}</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["to"],"name":[1],"type":["list"],"align":["right"]},{"label":["from.id"],"name":[2],"type":["chr"],"align":["left"]},{"label":["from.name"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"<list [0]>","2":"SLM:000063556","3":"Phosphatidylcholine (14:0_14:0)","_rn_":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>no match - use “children” or “get_subspecies” ?</p>
+<p>Are there alternative databases that could be searched?</p>
+<ul>
+<li>LIPID MAPS REST service <a href="https://www.lipidmaps.org/resources/rest" class="uri">https://www.lipidmaps.org/resources/rest</a></li>
+<li><code>webchem</code> (development version)</li>
+</ul>
+</div>
+<div id="search-lipidmaps-api" class="section level4">
+<h4>Search LipidMaps API</h4>
+<p><span class="citation">Fahy et al. (2009)</span></p>
+<p><a href="https://www.lipidmaps.org/resources/rest" class="uri">https://www.lipidmaps.org/resources/rest</a></p>
+<pre class="r"><code>library(data.table)</code></pre>
+<pre><code>## Warning: package &#39;data.table&#39; was built under R version 4.2.3</code></pre>
+<pre class="r"><code>base_url &lt;- &quot;https://www.lipidmaps.org/rest/&quot;
+term &lt;- &quot;PC 14:0_14:0&quot;
+term &lt;- gsub(&quot; &quot;, &quot;%2B&quot;, term)
+query_url &lt;- paste0(base_url, &quot;compound/abbrev_chains/&quot;, term, &quot;/all&quot;)
+print(query_url)</code></pre>
+<pre><code>## [1] &quot;https://www.lipidmaps.org/rest/compound/abbrev_chains/PC%2B14:0_14:0/all&quot;</code></pre>
+<pre class="r"><code>query_result &lt;- curl::curl_fetch_memory(URLencode(query_url))
+
+if(query_result$status_code == as.integer(200)) {
+  df &lt;- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+  if (is.list(df[[1]])) {
+    rbindlist(df, fill = T)
+  } else {
+    data.frame(df)
+  }
+}</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["input"],"name":[1],"type":["chr"],"align":["left"]},{"label":["regno"],"name":[2],"type":["chr"],"align":["left"]},{"label":["lm_id"],"name":[3],"type":["chr"],"align":["left"]},{"label":["name"],"name":[4],"type":["chr"],"align":["left"]},{"label":["sys_name"],"name":[5],"type":["chr"],"align":["left"]},{"label":["synonyms"],"name":[6],"type":["chr"],"align":["left"]},{"label":["abbrev"],"name":[7],"type":["chr"],"align":["left"]},{"label":["abbrev_chains"],"name":[8],"type":["chr"],"align":["left"]},{"label":["core"],"name":[9],"type":["chr"],"align":["left"]},{"label":["main_class"],"name":[10],"type":["chr"],"align":["left"]},{"label":["sub_class"],"name":[11],"type":["chr"],"align":["left"]},{"label":["exactmass"],"name":[12],"type":["chr"],"align":["left"]},{"label":["formula"],"name":[13],"type":["chr"],"align":["left"]},{"label":["inchi"],"name":[14],"type":["chr"],"align":["left"]},{"label":["inchi_key"],"name":[15],"type":["chr"],"align":["left"]},{"label":["hmdb_id"],"name":[16],"type":["chr"],"align":["left"]},{"label":["chebi_id"],"name":[17],"type":["chr"],"align":["left"]},{"label":["pubchem_cid"],"name":[18],"type":["chr"],"align":["left"]},{"label":["smiles"],"name":[19],"type":["chr"],"align":["left"]}],"data":[{"1":"PC 14:0_14:0","2":"2733","3":"LMGP01010477","4":"PC(14:0/14:0)","5":"1,2-ditetradecanoyl-sn-glycero-3-phosphocholine","6":"1,2-dimyristoyl-sn-glycero-3-phosphocholine; Dimyristoyl phosphatidylcholine; Choline, phosphate, ester with L-1,2-dimyristin; beta,gamma-Dimyristoyl L-alpha-phosphatidylcholine; 1,2-Bis(myristoyl)-sn-glycerophosphocholine; 1,2-Dimyristoylphosphatidylcholine; 1,2-Dimyristoyl-L-3-phosphatidylcholine; PC(28:0); PC(14:0_14:0)","7":"PC 28:0","8":"PC 14:0_14:0","9":"Glycerophospholipids [GP]","10":"Glycerophosphocholines [GP01]","11":"Diacylglycerophosphocholines [GP0101]","12":"677.499557","13":"C36H72NO8P","14":"InChI=1S/C36H72NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-35(38)42-32-34(33-44-46(40,41)43-31-30-37(3,4)5)45-36(39)29-27-25-23-21-19-17-15-13-11-9-7-2/h34H,6-33H2,1-5H3/t34-/m1/s1","15":"CITHEXJVPOWHKC-UUWRZZSWSA-N","16":"HMDB0007866","17":"45240","18":"5459377","19":"[C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCC)=O"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>apply(lipidblast_names, 1, function(row) {
+  term &lt;- row[[&quot;name&quot;]]
+  print(term)
+  term &lt;- gsub(&quot; &quot;, &quot;%2B&quot;, term)
+  query_url &lt;- paste0(base_url, &quot;compound/abbrev_chains/&quot;, term, &quot;/all&quot;)
+  query_result &lt;- curl::curl_fetch_memory(URLencode(query_url))
+  
+  if(query_result$status_code == as.integer(200)) {
+    df &lt;- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+    if (length(df) &gt; 1) {
+      if (is.list(df[[1]])) {
+        df &lt;- rbindlist(df, fill = T)
+      } else {
+        df &lt;- data.frame(df)
+      }
+    }
+    print(df)
+  }
+  
+})</code></pre>
+<pre><code>## [1] &quot;DG 18:1_18:1&quot;
+##           input regno        lm_id                           name
+## 1: DG 18:1_18:1  6290 LMGL02010049      DG(18:1(9Z)/18:1(9Z)/0:0)
+## 2: DG 18:1_18:1  9961 LMGL02010319 DG(18:1(9Z)/0:0/18:1(9Z)) (d5)
+##                                            sys_name
+## 1:             1,2-di-(9Z-octadecenoyl)-sn-glycerol
+## 2: 1,3-di-(9Z-octadecenoyl)-2-hydroxy-glycerol (d5)
+##                                                                synonyms  abbrev
+## 1: DG(18:1/18:1/0:0); 1,2-dioleoyl-sn-glycerol; 1,2-dioleoyl-glycerol;  DG 36:2
+## 2:     1,3-dioleoyl-sn-glycerol-d5; DG(18:1/0:0/18:1) (d5); 1,3-diolein    &lt;NA&gt;
+##    abbrev_chains               core              main_class
+## 1:  DG 18:1_18:1 Glycerolipids [GL] Diradylglycerols [GL02]
+## 2:  DG 18:1_18:1 Glycerolipids [GL] Diradylglycerols [GL02]
+##                   sub_class  exactmass    formula
+## 1: Diacylglycerols [GL0201] 620.537975   C39H72O5
+## 2: Diacylglycerols [GL0201] 625.569360 C39H67D5O5
+##                                                                                                                                                                                                           inchi
+## 1:     InChI=1S/C39H72O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-36-37(35-40)44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h17-20,37,40H,3-16,21-36H2,1-2H3/b19-17-,20-18-/t37-/m0/s1
+## 2: InChI=1S/C39H72O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-35-37(40)36-44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h17-20,37,40H,3-16,21-36H2,1-2H3/b19-17-,20-18-/i35D2,36D2,37D
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: AFSHUZFNMVJNKX-LLWMBOQKSA-N HMDB0007218    52333     9543716
+## 2: DRAWQKGUORNASA-XZPPQYRVSA-N        &lt;NA&gt;     &lt;NA&gt;     9543984
+##                                                                                             smiles
+## 1:                            OC[C@]([H])(OC(CCCCCCC/C=C\\CCCCCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 2: C([2H])([2H])(OC(=O)CCCCCCC/C=C\\CCCCCCCC)[C@]([2H])(O)C([2H])([2H])OC(CCCCCCC/C=C\\CCCCCCCC)=O
+## [1] &quot;DG 18:1_18:2&quot;
+##          input regno        lm_id                                name
+## 1 DG 18:1_18:2  6297 LMGL02010056 DG(18:1(9Z)/18:2(9Z,12Z)/0:0)[iso2]
+##                                                     sys_name
+## 1 1-(9Z-octadecenoyl)-2-(9Z,12Z-octadecadienoyl)-sn-glycerol
+##                                           synonyms  abbrev abbrev_chains
+## 1 DG(18:1/18:2/0:0)[iso2]; DG(36:3); DG(18:1_18:2) DG 36:3  DG 18:1_18:2
+##                 core              main_class                sub_class
+## 1 Glycerolipids [GL] Diradylglycerols [GL02] Diacylglycerols [GL0201]
+##    exactmass  formula
+## 1 618.522325 C39H70O5
+##                                                                                                                                                                                                                            inchi
+## 1 InChI=1S/C39H70O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-36-37(35-40)44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h12,14,17-20,37,40H,3-11,13,15-16,21-36H2,1-2H3/b14-12-,19-17-,20-18-/t37-/m0/s1
+##                     inchi_key     hmdb_id chebi_id pubchem_cid
+## 1 BLZVZPYMHLXLHG-JOBMVARSSA-N HMDB0007219    75450     9543722
+##                                                                     smiles
+## 1 OC[C@]([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## [1] &quot;LPC 24:0-SN1&quot;
+## list()
+## [1] &quot;LPC O-24:1&quot;
+## list()
+## [1] &quot;PC 14:0_14:0&quot;
+##          input regno        lm_id          name
+## 1 PC 14:0_14:0  2733 LMGP01010477 PC(14:0/14:0)
+##                                          sys_name
+## 1 1,2-ditetradecanoyl-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                                                                                                                                                               synonyms
+## 1 1,2-dimyristoyl-sn-glycero-3-phosphocholine; Dimyristoyl phosphatidylcholine; Choline, phosphate, ester with L-1,2-dimyristin; beta,gamma-Dimyristoyl L-alpha-phosphatidylcholine; 1,2-Bis(myristoyl)-sn-glycerophosphocholine; 1,2-Dimyristoylphosphatidylcholine; 1,2-Dimyristoyl-L-3-phosphatidylcholine; PC(28:0); PC(14:0_14:0)
+##    abbrev abbrev_chains                      core                    main_class
+## 1 PC 28:0  PC 14:0_14:0 Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                               sub_class  exactmass    formula
+## 1 Diacylglycerophosphocholines [GP0101] 677.499557 C36H72NO8P
+##                                                                                                                                                                                inchi
+## 1 InChI=1S/C36H72NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-35(38)42-32-34(33-44-46(40,41)43-31-30-37(3,4)5)45-36(39)29-27-25-23-21-19-17-15-13-11-9-7-2/h34H,6-33H2,1-5H3/t34-/m1/s1
+##                     inchi_key     hmdb_id chebi_id pubchem_cid
+## 1 CITHEXJVPOWHKC-UUWRZZSWSA-N HMDB0007866    45240     5459377
+##                                                                            smiles
+## 1 [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCC)=O
+## [1] &quot;PC 16:0_18:1&quot;
+##           input regno        lm_id               name
+## 1: PC 16:0_18:1  2847 LMGP01010575 PC(16:0/18:1(11E))
+## 2: PC 16:0_18:1  2848 LMGP01010576 PC(16:0/18:1(11Z))
+## 3: PC 16:0_18:1  2850 LMGP01010578  PC(16:0/18:1(6E))
+## 4: PC 16:0_18:1  2851 LMGP01010579  PC(16:0/18:1(6Z))
+## 5: PC 16:0_18:1  3190 LMGP01010884  PC(18:1(9Z)/16:0)
+## 6: PC 16:0_18:1   151 LMGP01010005  PC(16:0/18:1(9Z))
+## 7: PC 16:0_18:1  2853 LMGP01010581  PC(16:0/18:1(9E))
+## 8: PC 16:0_18:1 44016 LMGP01012146 PC(18:1(11Z)/16:0)
+##                                                           sys_name
+## 1: 1-hexadecanoyl-2-(11E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 2: 1-hexadecanoyl-2-(11Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 3:  1-hexadecanoyl-2-(6E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 4:  1-hexadecanoyl-2-(6Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 5:  1-(9Z-octadecenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 6:  1-hexadecanoyl-2-(9Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 7:  1-hexadecanoyl-2-(9E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 8: 1-(11Z-octadecenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##                                                                                                                                               synonyms
+## 1:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 2:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 3:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 4:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 5:                                                      L-alpha-1-Oleoyl-2-palmitoyl phosphatidylcholine; OPPC; PC(18:1/16:0); PC(34:1); PC(16:0_18:1)
+## 6: PC(16:0/18:1); Palmitoyloleoylphosphatidylcholine; 1-palmitoyl-2-oleoyl-sn-glycero-3-phosphocholine; PC(16:0/18:1w9); POPC; PC(34:1); PC(16:0_18:1)
+## 7:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 8:                                                                                                                             PC(34:1); PC(16:0_18:1)
+##     abbrev abbrev_chains                      core
+## 1: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 2: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 3: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 4: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 5: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 6: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 7: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 8: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+##                       main_class                             sub_class
+## 1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 6: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 7: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 8: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##     exactmass    formula
+## 1: 759.577807 C42H82NO8P
+## 2: 759.577807 C42H82NO8P
+## 3: 759.577807 C42H82NO8P
+## 4: 759.577807 C42H82NO8P
+## 5: 759.577807 C42H82NO8P
+## 6: 759.577807 C42H82NO8P
+## 7: 759.577807 C42H82NO8P
+## 8: 759.577807 C42H82NO8P
+##                                                                                                                                                                                                                          inchi
+## 1: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16+/t40-/m1/s1
+## 2: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16-/t40-/m1/s1
+## 3: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h25,27,40H,6-24,26,28-39H2,1-5H3/b27-25+/t40-/m1/s1
+## 4: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h25,27,40H,6-24,26,28-39H2,1-5H3/b27-25-/t40-/m1/s1
+## 5:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20-/t40-/m1/s1
+## 6:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20-/t40-/m1/s1
+## 7:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20+/t40-/m1/s1
+## 8: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16-/t40-/m1/s1
+##                      inchi_key chebi_id pubchem_cid
+## 1: AEPVLLKGEBHLEJ-CRZTYIBISA-N   177009    24778687
+## 2: AEPVLLKGEBHLEJ-KWNHIAGJSA-N    85037    24778688
+## 3: WQHUJDDOJBNBFW-APVPNSEHSA-N   178447    24778690
+## 4: WQHUJDDOJBNBFW-NSXSMVJOSA-N   178446    24778691
+## 5: RRVPPYNAZJRZFR-VYOBOKEXSA-N    74667    24778933
+## 6: WTJKGGKOPKCXLL-VYOBOKEXSA-N    73001     5497103
+## 7: WTJKGGKOPKCXLL-RYDYYDTQSA-N   178448     6506401
+## 8: WPAONTMCEBPEAF-KWNHIAGJSA-N    89677    53478717
+##                                                                                       smiles
+## 1:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C/CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 2: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C\\CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 3:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C/CCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 4: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\CCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 6: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 7:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 8: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCCCC/C=C\\CCCCCC)=O
+##        hmdb_id
+## 1:        &lt;NA&gt;
+## 2: HMDB0007971
+## 3:        &lt;NA&gt;
+## 4:        &lt;NA&gt;
+## 5: HMDB0008100
+## 6: HMDB0007972
+## 7:        &lt;NA&gt;
+## 8: HMDB0008067
+## [1] &quot;PC 16:0_18:2&quot;
+##            input regno        lm_id                   name
+##  1: PC 16:0_18:2  2867 LMGP01010589   PC(16:0/18:2(6Z,9Z))
+##  2: PC 16:0_18:2  2868 LMGP01010590  PC(16:0/18:2(9E,11E))
+##  3: PC 16:0_18:2  2870 LMGP01010592  PC(16:0/18:2(9E,12E))
+##  4: PC 16:0_18:2  2862 LMGP01010585 PC(16:0/18:2(10E,12Z))
+##  5: PC 16:0_18:2  2863 LMGP01010586 PC(16:0/18:2(11Z,13Z))
+##  6: PC 16:0_18:2  2864 LMGP01010587   PC(16:0/18:2(2E,4E))
+##  7: PC 16:0_18:2  2866 LMGP01010588   PC(16:0/18:2(2Z,4Z))
+##  8: PC 16:0_18:2  3228 LMGP01010920   PC(18:2(2E,4E)/16:0)
+##  9: PC 16:0_18:2  3237 LMGP01010926   PC(18:2(6Z,9Z)/16:0)
+## 10: PC 16:0_18:2  3245 LMGP01010932  PC(18:2(9Z,12Z)/16:0)
+## 11: PC 16:0_18:2  2872 LMGP01010594  PC(16:0/18:2(9Z,12Z))
+## 12: PC 16:0_18:2  2869 LMGP01010591  PC(16:0/18:2(9E,11Z))
+##                                                                   sys_name
+##  1:   1-hexadecanoyl-2-(6Z,9Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  2:  1-hexadecanoyl-2-(9E,11E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  3:  1-hexadecanoyl-2-(9E,12E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  4: 1-hexadecanoyl-2-(10E,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  5: 1-hexadecanoyl-2-(11Z,13Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  6:   1-hexadecanoyl-2-(2E,4E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  7:   1-hexadecanoyl-2-(2Z,4Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  8:   1-(2E,4E-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##  9:   1-(6Z,9Z-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 10:  1-(9Z,12Z-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 11:  1-hexadecanoyl-2-(9Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 12:  1-hexadecanoyl-2-(9E,11Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                   synonyms
+##  1:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  2:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  3:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  4:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  5:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  6:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  7:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  8:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+##  9:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+## 10:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+## 11: 1-Palmitoyl-2-linoleoyl-sn-glycero-phosphatidylcholine; 1-Palmitoyl-2-linoleoyl-sn-glycero-3-phosphocholine;PC(16:0/18:2n6); Phosphatidylcholine(16:0/18:2w6); PC(34:2); PC(16:0_18:2)
+## 12:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##      abbrev abbrev_chains                      core
+##  1: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  2: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  3: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  4: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  5: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  6: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  7: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  8: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  9: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 10: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 11: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 12: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##                        main_class                             sub_class
+##  1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  6: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  7: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  8: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  9: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 10: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 11: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 12: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##      exactmass    formula
+##  1: 757.562157 C42H80NO8P
+##  2: 757.562157 C42H80NO8P
+##  3: 757.562157 C42H80NO8P
+##  4: 757.562157 C42H80NO8P
+##  5: 757.562157 C42H80NO8P
+##  6: 757.562157 C42H80NO8P
+##  7: 757.562157 C42H80NO8P
+##  8: 757.562157 C42H80NO8P
+##  9: 757.562157 C42H80NO8P
+## 10: 757.562157 C42H80NO8P
+## 11: 757.562157 C42H80NO8P
+## 12: 757.562157 C42H80NO8P
+##                                                                                                                                                                                                                                              inchi
+##  1: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,25,27,40H,6-19,22-24,26,28-39H2,1-5H3/b21-20-,27-25-/t40-/m1/s1
+##  2:    InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,20-21,40H,6-15,17,19,22-39H2,1-5H3/b18-16+,21-20+/t40-/m1/s1
+##  3: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14+,21-20+/t40-/m1/s1
+##  4: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,18,20,40H,6-13,15,17,19,21-39H2,1-5H3/b16-14-,20-18+/t40-/m1/s1
+##  5: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h12,14,16,18,40H,6-11,13,15,17,19-39H2,1-5H3/b14-12-,18-16-/t40-/m1/s1
+##  6: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h29,31,33,35,40H,6-28,30,32,34,36-39H2,1-5H3/b31-29+,35-33+/t40-/m1/s1
+##  7: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h29,31,33,35,40H,6-28,30,32,34,36-39H2,1-5H3/b31-29-,35-33-/t40-/m1/s1
+##  8: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h28,30,32,34,40H,6-27,29,31,33,35-39H2,1-5H3/b30-28+,34-32+/t40-/m1/s1
+##  9: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h20-21,24,26,40H,6-19,22-23,25,27-39H2,1-5H3/b21-20-,26-24-/t40-/m1/s1
+## 10: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14-,21-20-/t40-/m1/s1
+## 11: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14-,21-20-/t40-/m1/s1
+## 12:    InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,20-21,40H,6-15,17,19,22-39H2,1-5H3/b18-16-,21-20+/t40-/m1/s1
+##                       inchi_key chebi_id pubchem_cid
+##  1: NVWYLRLKCCCUBZ-PNKFPDHGSA-N   179027     6439299
+##  2: BJKWDKQJEMVIKS-ARUZQIEBSA-N   179025    14505457
+##  3: JLPULHDHAOZNQI-JLOPVYAASA-N     &lt;NA&gt;    16213884
+##  4: YIESKSYNEFFZIQ-CUXJVTSPSA-N   179026    24778693
+##  5: SRVZLYMJPFUQMZ-GAFNOKDPSA-N   143226    24778694
+##  6: CFORBWCMGILWNN-ONIHBDGASA-N   179029    24778695
+##  7: CFORBWCMGILWNN-DTYIFQBKSA-N   179028    24778696
+##  8: WQFCDFOSFXSVBR-NSSFMFGJSA-N   179022    24778962
+##  9: SMKWDVPQDCTXMH-ZJNCXZMVSA-N   179023    24778966
+## 10: FWMYJLDHIVCJCT-ZTIMHPMXSA-N    86099    24778972
+## 11: JLPULHDHAOZNQI-ZTIMHPMXSA-N    73002     5287971
+## 12: BJKWDKQJEMVIKS-PWEUVDJUSA-N   179024    24778697
+##                                                                                            smiles
+##  1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  2:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C=C/CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  3:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  4:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCC/C=C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  5:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C\\C=C/CCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  6:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C/C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  7:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C\\C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  8:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(/C=C/C=C/CCCCCCCCCCCCC)=O
+##  9: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O
+## 10: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O
+## 11: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 12:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C=C\\CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##         hmdb_id
+##  1:        &lt;NA&gt;
+##  2:        &lt;NA&gt;
+##  3:        &lt;NA&gt;
+##  4:        &lt;NA&gt;
+##  5:        &lt;NA&gt;
+##  6:        &lt;NA&gt;
+##  7:        &lt;NA&gt;
+##  8:        &lt;NA&gt;
+##  9:        &lt;NA&gt;
+## 10: HMDB0008133
+## 11: HMDB0007973
+## 12:        &lt;NA&gt;
+## [1] &quot;PC 16:0_20:3&quot;
+##           input regno        lm_id                      name
+## 1: PC 16:0_20:3 44171 LMGP01012194  PC(20:3(5Z,8Z,11Z)/16:0)
+## 2: PC 16:0_20:3 28268 LMGP01011872 PC(20:3(8Z,11Z,14Z)/16:0)
+## 3: PC 16:0_20:3  2901 LMGP01010622  PC(16:0/20:3(5Z,8Z,11Z))
+## 4: PC 16:0_20:3  2903 LMGP01010624 PC(16:0/20:3(8E,11E,14E))
+## 5: PC 16:0_20:3  2906 LMGP01010627 PC(16:0/20:3(8Z,11Z,14Z))
+##                                                                    sys_name
+## 1:  1-(5Z,8Z,11Z-eicosatrienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 2:    1-(8Z,11Z,14Z-eicosatrienoyl)-2-hexadecanoyl-glycero-3-phosphocholine
+## 3:  1-hexadecanoyl-2-(5Z,8Z,11Z-eicosatrienoyl)-sn-glycero-3-phosphocholine
+## 4: 1-hexadecanoyl-2-(8E,11E,14E-eicosatrienoyl)-sn-glycero-3-phosphocholine
+## 5: 1-hexadecanoyl-2-(8Z,11Z,14Z-eicosatrienoyl)-sn-glycero-3-phosphocholine
+##                                  synonyms  abbrev abbrev_chains
+## 1:                PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 2:                PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 3: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 4: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 5: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+##                         core                    main_class
+## 1: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 2: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 3: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 4: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 5: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                                sub_class  exactmass    formula
+## 1: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 2: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 3: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 4: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 5: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+##                                                                                                                                                                                                                                                                      inchi
+## 1: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h20-21,23,25,28,30,42H,6-19,22,24,26-27,29,31-41H2,1-5H3/b21-20-,25-23-,30-28-/t42-/m1/s1
+## 2: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14-,21-20-,25-23-/t42-/m1/s1
+## 3: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h20-21,23,25,29,31,42H,6-19,22,24,26-28,30,32-41H2,1-5H3/b21-20-,25-23-,31-29-/t42-/m1/s1
+## 4: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14+,21-20+,25-23+/t42-/m1/s1
+## 5: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14-,21-20-,25-23-/t42-/m1/s1
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: LLSOYDYFSWVKOU-ZOVMTBBQSA-N HMDB0008364    89127    53478949
+## 2: YKSVDDIMSQYNID-YYQUKWHJSA-N HMDB0008397    89177    52923221
+## 3: XMZFUVYOYPLVOA-VLHUWQDUSA-N HMDB0007980    86119    24778715
+## 4: SRIGHEHXEGELQJ-GDRFEWIRSA-N        &lt;NA&gt;     &lt;NA&gt;    24778716
+## 5: SRIGHEHXEGELQJ-YYQUKWHJSA-N HMDB0007981    86121    24778719
+##                                                                                                 smiles
+## 1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCC/C=C\\C/C=C\\C/C=C\\CCCCCCCC)=O
+## 2: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCC/C=C\\C/C=C\\C/C=C\\CCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCC/C=C\\C/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 4:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C/C/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C\\C/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## [1] &quot;PC 16:0_20:4&quot;
+##           input regno        lm_id                          name
+## 1: PC 16:0_20:4 43965 LMGP01012136 PC(16:0/20:4(8Z,11Z,14Z,17Z))
+## 2: PC 16:0_20:4  2908 LMGP01010629  PC(16:0/20:4(5E,8E,11E,14E))
+## 3: PC 16:0_20:4  3379 LMGP01011049  PC(20:4(5Z,8Z,11Z,14Z)/16:0)
+## 4: PC 16:0_20:4  3386 LMGP01011056 PC(20:4(8E,11E,14E,17E)/16:0)
+##                                                                          sys_name
+## 1: 1-hexadecanoyl-2-(8Z,11Z,14Z,17Z-eicosatetraenoyl)-sn-glycero-3-phosphocholine
+## 2:  1-hexadecanoyl-2-(5E,8E,11E,14E-eicosatetraenoyl)-sn-glycero-3-phosphocholine
+## 3:  1-(5Z,8Z,11Z,14Z-eicosatetraenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 4: 1-(8E,11E,14E,17E-eicosatetraenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##                                  synonyms  abbrev abbrev_chains
+## 1:                PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 2: PC(16:0/20:4); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 3: PC(20:4/16:0); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 4: PC(20:4/16:0); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+##                         core                    main_class
+## 1: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 2: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 3: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 4: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                                sub_class  exactmass    formula
+## 1: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 2: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 3: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 4: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+##                                                                                                                                                                                                                                                                                            inchi
+## 1:     InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h8,10,14,16,20-21,23,25,42H,6-7,9,11-13,15,17-19,22,24,26-41H2,1-5H3/b10-8-,16-14-,21-20-,25-23-/t42-/m1/s1
+## 2: InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,29,31,42H,6-13,15,17-19,22,24,26-28,30,32-41H2,1-5H3/b16-14+,21-20+,25-23+,31-29+/t42-/m1/s1
+## 3: InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,28,30,42H,6-13,15,17-19,22,24,26-27,29,31-41H2,1-5H3/b16-14-,21-20-,25-23-,30-28-/t42-/m1/s1
+## 4:     InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h8,10,14,16,20-21,23,25,42H,6-7,9,11-13,15,17-19,22,24,26-41H2,1-5H3/b10-8+,16-14+,21-20+,25-23+/t42-/m1/s1
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: JAVWFBAAZSHHAD-HCYAGMRRSA-N HMDB0007983    88990    53478669
+## 2: IIZPXYDJLKNOIY-LBKRVYFZSA-N        &lt;NA&gt;    84794    24778721
+## 3: PUDHBQQGURLBGJ-IVFHWKNFSA-N HMDB0008429    77694    24779073
+## 4: JWAPTBDWCHGPTG-JQQBZAOGSA-N        &lt;NA&gt;     &lt;NA&gt;    24779079
+##                                                                                                     smiles
+## 1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 2:     [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCC/C=C/C/C=C/C/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CCCCC)=O
+## 4:     [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCC/C=C/C/C=C/C/C=C/C/C=C/CC)=O
+## [1] &quot;PC 18:0_18:2&quot;
+##           input regno        lm_id                   name
+## 1: PC 18:0_18:2  3056 LMGP01010764 PC(18:0/18:2(10Z,12Z))
+## 2: PC 18:0_18:2  3057 LMGP01010765   PC(18:0/18:2(2E,4E))
+## 3: PC 18:0_18:2  3059 LMGP01010766   PC(18:0/18:2(6Z,9Z))
+## 4: PC 18:0_18:2  3248 LMGP01010935  PC(18:2(9Z,12Z)/18:0)
+## 5: PC 18:0_18:2  3061 LMGP01010768  PC(18:0/18:2(9Z,12Z))
+##                                                                  sys_name
+## 1: 1-octadecanoyl-2-(10Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 2:   1-octadecanoyl-2-(2E,4E-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 3:   1-octadecanoyl-2-(6Z,9Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 4:  1-(9Z,12Z-octadecadienoyl)-2-octadecanoyl-sn-glycero-3-phosphocholine
+## 5:  1-octadecanoyl-2-(9Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                                             synonyms
+## 1:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 2:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 3:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 4:                                                                                                                        1-Linoleoyl-2-stearoyl-sn-glycero-3-phosphocholine; PC(18:2/18:0); PC(36:2); PC(18:0_18:2)
+## 5: 1-Stearoyl-2-linoleoylphosphatidylcholine; 1-Stearoyl-2-linoleoyl-sn-glycero-3-phosphatidylcholine; 1-stearoyl-2-linoleoyl-sn-glycero-3-phosphocholine; Phosphatidylcholine(18:0/18:2w6); PC(36:2); PC(18:0_18:2)
+##     abbrev abbrev_chains                      core
+## 1: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 2: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 3: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 4: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 5: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+##                       main_class                             sub_class
+## 1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##     exactmass    formula
+## 1: 785.593457 C44H84NO8P
+## 2: 785.593457 C44H84NO8P
+## 3: 785.593457 C44H84NO8P
+## 4: 785.593457 C44H84NO8P
+## 5: 785.593457 C44H84NO8P
+##                                                                                                                                                                                                                                                      inchi
+## 1:    InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h15,17,19,21,42H,6-14,16,18,20,22-41H2,1-5H3/b17-15-,21-19-/t42-/m1/s1
+## 2:    InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h31,33,35,37,42H,6-30,32,34,36,38-41H2,1-5H3/b33-31+,37-35+/t42-/m1/s1
+## 3: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h21,23,27,29,42H,6-20,22,24-26,28,30-41H2,1-5H3/b23-21-,29-27-/t42-/m1/s1
+## 4: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h14,16,20,22,42H,6-13,15,17-19,21,23-41H2,1-5H3/b16-14-,22-20-/t42-/m1/s1
+## 5: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h15,17,21,23,42H,6-14,16,18-20,22,24-41H2,1-5H3/b17-15-,23-21-/t42-/m1/s1
+##                      inchi_key chebi_id pubchem_cid
+## 1: GEBIVJZAMTZGNL-PQZYZDDCSA-N    84819    24778826
+## 2: DTPHOVXVLBUQRC-BIFUJNFHSA-N    84820    24778827
+## 3: PNNRCVLUZNDRRG-SGMTWIHVSA-N    84821    24778828
+## 4: DZPKSVTWWIZUMS-FPUNCOTOSA-N    86112    15378085
+## 5: FORFDCPQKJHEBF-VPUSDGANSA-N    84822     6441487
+##                                                                                             smiles
+## 1:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCC/C=C\\C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 2:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C/C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 4: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+##        hmdb_id
+## 1:        &lt;NA&gt;
+## 2:        &lt;NA&gt;
+## 3:        &lt;NA&gt;
+## 4: HMDB0008135
+## 5: HMDB0008039
+## [1] &quot;SM 8:0;2O/24:0&quot;
+## list()
+## [1] &quot;SM 8:1;2O/26:0&quot;
+## list()</code></pre>
+<pre><code>## [[1]]
+##           input regno        lm_id                           name
+## 1: DG 18:1_18:1  6290 LMGL02010049      DG(18:1(9Z)/18:1(9Z)/0:0)
+## 2: DG 18:1_18:1  9961 LMGL02010319 DG(18:1(9Z)/0:0/18:1(9Z)) (d5)
+##                                            sys_name
+## 1:             1,2-di-(9Z-octadecenoyl)-sn-glycerol
+## 2: 1,3-di-(9Z-octadecenoyl)-2-hydroxy-glycerol (d5)
+##                                                                synonyms  abbrev
+## 1: DG(18:1/18:1/0:0); 1,2-dioleoyl-sn-glycerol; 1,2-dioleoyl-glycerol;  DG 36:2
+## 2:     1,3-dioleoyl-sn-glycerol-d5; DG(18:1/0:0/18:1) (d5); 1,3-diolein    &lt;NA&gt;
+##    abbrev_chains               core              main_class
+## 1:  DG 18:1_18:1 Glycerolipids [GL] Diradylglycerols [GL02]
+## 2:  DG 18:1_18:1 Glycerolipids [GL] Diradylglycerols [GL02]
+##                   sub_class  exactmass    formula
+## 1: Diacylglycerols [GL0201] 620.537975   C39H72O5
+## 2: Diacylglycerols [GL0201] 625.569360 C39H67D5O5
+##                                                                                                                                                                                                           inchi
+## 1:     InChI=1S/C39H72O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-36-37(35-40)44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h17-20,37,40H,3-16,21-36H2,1-2H3/b19-17-,20-18-/t37-/m0/s1
+## 2: InChI=1S/C39H72O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-35-37(40)36-44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h17-20,37,40H,3-16,21-36H2,1-2H3/b19-17-,20-18-/i35D2,36D2,37D
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: AFSHUZFNMVJNKX-LLWMBOQKSA-N HMDB0007218    52333     9543716
+## 2: DRAWQKGUORNASA-XZPPQYRVSA-N        &lt;NA&gt;     &lt;NA&gt;     9543984
+##                                                                                             smiles
+## 1:                            OC[C@]([H])(OC(CCCCCCC/C=C\\CCCCCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 2: C([2H])([2H])(OC(=O)CCCCCCC/C=C\\CCCCCCCC)[C@]([2H])(O)C([2H])([2H])OC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 
+## [[2]]
+##          input regno        lm_id                                name
+## 1 DG 18:1_18:2  6297 LMGL02010056 DG(18:1(9Z)/18:2(9Z,12Z)/0:0)[iso2]
+##                                                     sys_name
+## 1 1-(9Z-octadecenoyl)-2-(9Z,12Z-octadecadienoyl)-sn-glycerol
+##                                           synonyms  abbrev abbrev_chains
+## 1 DG(18:1/18:2/0:0)[iso2]; DG(36:3); DG(18:1_18:2) DG 36:3  DG 18:1_18:2
+##                 core              main_class                sub_class
+## 1 Glycerolipids [GL] Diradylglycerols [GL02] Diacylglycerols [GL0201]
+##    exactmass  formula
+## 1 618.522325 C39H70O5
+##                                                                                                                                                                                                                            inchi
+## 1 InChI=1S/C39H70O5/c1-3-5-7-9-11-13-15-17-19-21-23-25-27-29-31-33-38(41)43-36-37(35-40)44-39(42)34-32-30-28-26-24-22-20-18-16-14-12-10-8-6-4-2/h12,14,17-20,37,40H,3-11,13,15-16,21-36H2,1-2H3/b14-12-,19-17-,20-18-/t37-/m0/s1
+##                     inchi_key     hmdb_id chebi_id pubchem_cid
+## 1 BLZVZPYMHLXLHG-JOBMVARSSA-N HMDB0007219    75450     9543722
+##                                                                     smiles
+## 1 OC[C@]([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 
+## [[3]]
+## list()
+## 
+## [[4]]
+## list()
+## 
+## [[5]]
+##          input regno        lm_id          name
+## 1 PC 14:0_14:0  2733 LMGP01010477 PC(14:0/14:0)
+##                                          sys_name
+## 1 1,2-ditetradecanoyl-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                                                                                                                                                               synonyms
+## 1 1,2-dimyristoyl-sn-glycero-3-phosphocholine; Dimyristoyl phosphatidylcholine; Choline, phosphate, ester with L-1,2-dimyristin; beta,gamma-Dimyristoyl L-alpha-phosphatidylcholine; 1,2-Bis(myristoyl)-sn-glycerophosphocholine; 1,2-Dimyristoylphosphatidylcholine; 1,2-Dimyristoyl-L-3-phosphatidylcholine; PC(28:0); PC(14:0_14:0)
+##    abbrev abbrev_chains                      core                    main_class
+## 1 PC 28:0  PC 14:0_14:0 Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                               sub_class  exactmass    formula
+## 1 Diacylglycerophosphocholines [GP0101] 677.499557 C36H72NO8P
+##                                                                                                                                                                                inchi
+## 1 InChI=1S/C36H72NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-35(38)42-32-34(33-44-46(40,41)43-31-30-37(3,4)5)45-36(39)29-27-25-23-21-19-17-15-13-11-9-7-2/h34H,6-33H2,1-5H3/t34-/m1/s1
+##                     inchi_key     hmdb_id chebi_id pubchem_cid
+## 1 CITHEXJVPOWHKC-UUWRZZSWSA-N HMDB0007866    45240     5459377
+##                                                                            smiles
+## 1 [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCC)=O
+## 
+## [[6]]
+##           input regno        lm_id               name
+## 1: PC 16:0_18:1  2847 LMGP01010575 PC(16:0/18:1(11E))
+## 2: PC 16:0_18:1  2848 LMGP01010576 PC(16:0/18:1(11Z))
+## 3: PC 16:0_18:1  2850 LMGP01010578  PC(16:0/18:1(6E))
+## 4: PC 16:0_18:1  2851 LMGP01010579  PC(16:0/18:1(6Z))
+## 5: PC 16:0_18:1  3190 LMGP01010884  PC(18:1(9Z)/16:0)
+## 6: PC 16:0_18:1   151 LMGP01010005  PC(16:0/18:1(9Z))
+## 7: PC 16:0_18:1  2853 LMGP01010581  PC(16:0/18:1(9E))
+## 8: PC 16:0_18:1 44016 LMGP01012146 PC(18:1(11Z)/16:0)
+##                                                           sys_name
+## 1: 1-hexadecanoyl-2-(11E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 2: 1-hexadecanoyl-2-(11Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 3:  1-hexadecanoyl-2-(6E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 4:  1-hexadecanoyl-2-(6Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 5:  1-(9Z-octadecenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 6:  1-hexadecanoyl-2-(9Z-octadecenoyl)-sn-glycero-3-phosphocholine
+## 7:  1-hexadecanoyl-2-(9E-octadecenoyl)-sn-glycero-3-phosphocholine
+## 8: 1-(11Z-octadecenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##                                                                                                                                               synonyms
+## 1:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 2:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 3:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 4:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 5:                                                      L-alpha-1-Oleoyl-2-palmitoyl phosphatidylcholine; OPPC; PC(18:1/16:0); PC(34:1); PC(16:0_18:1)
+## 6: PC(16:0/18:1); Palmitoyloleoylphosphatidylcholine; 1-palmitoyl-2-oleoyl-sn-glycero-3-phosphocholine; PC(16:0/18:1w9); POPC; PC(34:1); PC(16:0_18:1)
+## 7:                                                                                                              PC(16:0/18:1); PC(34:1); PC(16:0_18:1)
+## 8:                                                                                                                             PC(34:1); PC(16:0_18:1)
+##     abbrev abbrev_chains                      core
+## 1: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 2: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 3: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 4: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 5: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 6: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 7: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+## 8: PC 34:1  PC 16:0_18:1 Glycerophospholipids [GP]
+##                       main_class                             sub_class
+## 1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 6: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 7: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 8: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##     exactmass    formula
+## 1: 759.577807 C42H82NO8P
+## 2: 759.577807 C42H82NO8P
+## 3: 759.577807 C42H82NO8P
+## 4: 759.577807 C42H82NO8P
+## 5: 759.577807 C42H82NO8P
+## 6: 759.577807 C42H82NO8P
+## 7: 759.577807 C42H82NO8P
+## 8: 759.577807 C42H82NO8P
+##                                                                                                                                                                                                                          inchi
+## 1: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16+/t40-/m1/s1
+## 2: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16-/t40-/m1/s1
+## 3: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h25,27,40H,6-24,26,28-39H2,1-5H3/b27-25+/t40-/m1/s1
+## 4: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h25,27,40H,6-24,26,28-39H2,1-5H3/b27-25-/t40-/m1/s1
+## 5:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20-/t40-/m1/s1
+## 6:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20-/t40-/m1/s1
+## 7:    InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,40H,6-19,22-39H2,1-5H3/b21-20+/t40-/m1/s1
+## 8: InChI=1S/C42H82NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h16,18,40H,6-15,17,19-39H2,1-5H3/b18-16-/t40-/m1/s1
+##                      inchi_key chebi_id pubchem_cid
+## 1: AEPVLLKGEBHLEJ-CRZTYIBISA-N   177009    24778687
+## 2: AEPVLLKGEBHLEJ-KWNHIAGJSA-N    85037    24778688
+## 3: WQHUJDDOJBNBFW-APVPNSEHSA-N   178447    24778690
+## 4: WQHUJDDOJBNBFW-NSXSMVJOSA-N   178446    24778691
+## 5: RRVPPYNAZJRZFR-VYOBOKEXSA-N    74667    24778933
+## 6: WTJKGGKOPKCXLL-VYOBOKEXSA-N    73001     5497103
+## 7: WTJKGGKOPKCXLL-RYDYYDTQSA-N   178448     6506401
+## 8: WPAONTMCEBPEAF-KWNHIAGJSA-N    89677    53478717
+##                                                                                       smiles
+## 1:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C/CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 2: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C\\CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 3:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C/CCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 4: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\CCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\CCCCCCCC)=O
+## 6: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 7:  [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 8: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCCCC/C=C\\CCCCCC)=O
+##        hmdb_id
+## 1:        &lt;NA&gt;
+## 2: HMDB0007971
+## 3:        &lt;NA&gt;
+## 4:        &lt;NA&gt;
+## 5: HMDB0008100
+## 6: HMDB0007972
+## 7:        &lt;NA&gt;
+## 8: HMDB0008067
+## 
+## [[7]]
+##            input regno        lm_id                   name
+##  1: PC 16:0_18:2  2867 LMGP01010589   PC(16:0/18:2(6Z,9Z))
+##  2: PC 16:0_18:2  2868 LMGP01010590  PC(16:0/18:2(9E,11E))
+##  3: PC 16:0_18:2  2870 LMGP01010592  PC(16:0/18:2(9E,12E))
+##  4: PC 16:0_18:2  2862 LMGP01010585 PC(16:0/18:2(10E,12Z))
+##  5: PC 16:0_18:2  2863 LMGP01010586 PC(16:0/18:2(11Z,13Z))
+##  6: PC 16:0_18:2  2864 LMGP01010587   PC(16:0/18:2(2E,4E))
+##  7: PC 16:0_18:2  2866 LMGP01010588   PC(16:0/18:2(2Z,4Z))
+##  8: PC 16:0_18:2  3228 LMGP01010920   PC(18:2(2E,4E)/16:0)
+##  9: PC 16:0_18:2  3237 LMGP01010926   PC(18:2(6Z,9Z)/16:0)
+## 10: PC 16:0_18:2  3245 LMGP01010932  PC(18:2(9Z,12Z)/16:0)
+## 11: PC 16:0_18:2  2872 LMGP01010594  PC(16:0/18:2(9Z,12Z))
+## 12: PC 16:0_18:2  2869 LMGP01010591  PC(16:0/18:2(9E,11Z))
+##                                                                   sys_name
+##  1:   1-hexadecanoyl-2-(6Z,9Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  2:  1-hexadecanoyl-2-(9E,11E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  3:  1-hexadecanoyl-2-(9E,12E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  4: 1-hexadecanoyl-2-(10E,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  5: 1-hexadecanoyl-2-(11Z,13Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  6:   1-hexadecanoyl-2-(2E,4E-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  7:   1-hexadecanoyl-2-(2Z,4Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##  8:   1-(2E,4E-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##  9:   1-(6Z,9Z-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 10:  1-(9Z,12Z-octadecadienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 11:  1-hexadecanoyl-2-(9Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 12:  1-hexadecanoyl-2-(9E,11Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                   synonyms
+##  1:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  2:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  3:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  4:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  5:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  6:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  7:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##  8:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+##  9:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+## 10:                                                                                                                                                 PC(18:2/16:0); PC(34:2); PC(16:0_18:2)
+## 11: 1-Palmitoyl-2-linoleoyl-sn-glycero-phosphatidylcholine; 1-Palmitoyl-2-linoleoyl-sn-glycero-3-phosphocholine;PC(16:0/18:2n6); Phosphatidylcholine(16:0/18:2w6); PC(34:2); PC(16:0_18:2)
+## 12:                                                                                                                                                 PC(16:0/18:2); PC(34:2); PC(16:0_18:2)
+##      abbrev abbrev_chains                      core
+##  1: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  2: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  3: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  4: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  5: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  6: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  7: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  8: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##  9: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 10: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 11: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+## 12: PC 34:2  PC 16:0_18:2 Glycerophospholipids [GP]
+##                        main_class                             sub_class
+##  1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  6: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  7: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  8: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##  9: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 10: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 11: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 12: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##      exactmass    formula
+##  1: 757.562157 C42H80NO8P
+##  2: 757.562157 C42H80NO8P
+##  3: 757.562157 C42H80NO8P
+##  4: 757.562157 C42H80NO8P
+##  5: 757.562157 C42H80NO8P
+##  6: 757.562157 C42H80NO8P
+##  7: 757.562157 C42H80NO8P
+##  8: 757.562157 C42H80NO8P
+##  9: 757.562157 C42H80NO8P
+## 10: 757.562157 C42H80NO8P
+## 11: 757.562157 C42H80NO8P
+## 12: 757.562157 C42H80NO8P
+##                                                                                                                                                                                                                                              inchi
+##  1: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h20-21,25,27,40H,6-19,22-24,26,28-39H2,1-5H3/b21-20-,27-25-/t40-/m1/s1
+##  2:    InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,20-21,40H,6-15,17,19,22-39H2,1-5H3/b18-16+,21-20+/t40-/m1/s1
+##  3: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14+,21-20+/t40-/m1/s1
+##  4: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,18,20,40H,6-13,15,17,19,21-39H2,1-5H3/b16-14-,20-18+/t40-/m1/s1
+##  5: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h12,14,16,18,40H,6-11,13,15,17,19-39H2,1-5H3/b14-12-,18-16-/t40-/m1/s1
+##  6: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h29,31,33,35,40H,6-28,30,32,34,36-39H2,1-5H3/b31-29+,35-33+/t40-/m1/s1
+##  7: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h29,31,33,35,40H,6-28,30,32,34,36-39H2,1-5H3/b31-29-,35-33-/t40-/m1/s1
+##  8: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h28,30,32,34,40H,6-27,29,31,33,35-39H2,1-5H3/b30-28+,34-32+/t40-/m1/s1
+##  9: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h20-21,24,26,40H,6-19,22-23,25,27-39H2,1-5H3/b21-20-,26-24-/t40-/m1/s1
+## 10: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-24-26-28-30-32-34-41(44)48-38-40(39-50-52(46,47)49-37-36-43(3,4)5)51-42(45)35-33-31-29-27-25-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14-,21-20-/t40-/m1/s1
+## 11: InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h14,16,20-21,40H,6-13,15,17-19,22-39H2,1-5H3/b16-14-,21-20-/t40-/m1/s1
+## 12:    InChI=1S/C42H80NO8P/c1-6-8-10-12-14-16-18-20-21-23-25-27-29-31-33-35-42(45)51-40(39-50-52(46,47)49-37-36-43(3,4)5)38-48-41(44)34-32-30-28-26-24-22-19-17-15-13-11-9-7-2/h16,18,20-21,40H,6-15,17,19,22-39H2,1-5H3/b18-16-,21-20+/t40-/m1/s1
+##                       inchi_key chebi_id pubchem_cid
+##  1: NVWYLRLKCCCUBZ-PNKFPDHGSA-N   179027     6439299
+##  2: BJKWDKQJEMVIKS-ARUZQIEBSA-N   179025    14505457
+##  3: JLPULHDHAOZNQI-JLOPVYAASA-N     &lt;NA&gt;    16213884
+##  4: YIESKSYNEFFZIQ-CUXJVTSPSA-N   179026    24778693
+##  5: SRVZLYMJPFUQMZ-GAFNOKDPSA-N   143226    24778694
+##  6: CFORBWCMGILWNN-ONIHBDGASA-N   179029    24778695
+##  7: CFORBWCMGILWNN-DTYIFQBKSA-N   179028    24778696
+##  8: WQFCDFOSFXSVBR-NSSFMFGJSA-N   179022    24778962
+##  9: SMKWDVPQDCTXMH-ZJNCXZMVSA-N   179023    24778966
+## 10: FWMYJLDHIVCJCT-ZTIMHPMXSA-N    86099    24778972
+## 11: JLPULHDHAOZNQI-ZTIMHPMXSA-N    73002     5287971
+## 12: BJKWDKQJEMVIKS-PWEUVDJUSA-N   179024    24778697
+##                                                                                            smiles
+##  1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  2:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C=C/CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  3:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  4:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCC/C=C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  5:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCC/C=C\\C=C/CCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  6:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C/C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  7:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C\\C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##  8:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(/C=C/C=C/CCCCCCCCCCCCC)=O
+##  9: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O
+## 10: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O
+## 11: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 12:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C/C=C\\CCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+##         hmdb_id
+##  1:        &lt;NA&gt;
+##  2:        &lt;NA&gt;
+##  3:        &lt;NA&gt;
+##  4:        &lt;NA&gt;
+##  5:        &lt;NA&gt;
+##  6:        &lt;NA&gt;
+##  7:        &lt;NA&gt;
+##  8:        &lt;NA&gt;
+##  9:        &lt;NA&gt;
+## 10: HMDB0008133
+## 11: HMDB0007973
+## 12:        &lt;NA&gt;
+## 
+## [[8]]
+##           input regno        lm_id                      name
+## 1: PC 16:0_20:3 44171 LMGP01012194  PC(20:3(5Z,8Z,11Z)/16:0)
+## 2: PC 16:0_20:3 28268 LMGP01011872 PC(20:3(8Z,11Z,14Z)/16:0)
+## 3: PC 16:0_20:3  2901 LMGP01010622  PC(16:0/20:3(5Z,8Z,11Z))
+## 4: PC 16:0_20:3  2903 LMGP01010624 PC(16:0/20:3(8E,11E,14E))
+## 5: PC 16:0_20:3  2906 LMGP01010627 PC(16:0/20:3(8Z,11Z,14Z))
+##                                                                    sys_name
+## 1:  1-(5Z,8Z,11Z-eicosatrienoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 2:    1-(8Z,11Z,14Z-eicosatrienoyl)-2-hexadecanoyl-glycero-3-phosphocholine
+## 3:  1-hexadecanoyl-2-(5Z,8Z,11Z-eicosatrienoyl)-sn-glycero-3-phosphocholine
+## 4: 1-hexadecanoyl-2-(8E,11E,14E-eicosatrienoyl)-sn-glycero-3-phosphocholine
+## 5: 1-hexadecanoyl-2-(8Z,11Z,14Z-eicosatrienoyl)-sn-glycero-3-phosphocholine
+##                                  synonyms  abbrev abbrev_chains
+## 1:                PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 2:                PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 3: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 4: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+## 5: PC(16:0/20:3); PC(36:3); PC(16:0_20:3) PC 36:3  PC 16:0_20:3
+##                         core                    main_class
+## 1: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 2: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 3: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 4: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 5: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                                sub_class  exactmass    formula
+## 1: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 2: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 3: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 4: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+## 5: Diacylglycerophosphocholines [GP0101] 783.577807 C44H82NO8P
+##                                                                                                                                                                                                                                                                      inchi
+## 1: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h20-21,23,25,28,30,42H,6-19,22,24,26-27,29,31-41H2,1-5H3/b21-20-,25-23-,30-28-/t42-/m1/s1
+## 2: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14-,21-20-,25-23-/t42-/m1/s1
+## 3: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h20-21,23,25,29,31,42H,6-19,22,24,26-28,30,32-41H2,1-5H3/b21-20-,25-23-,31-29-/t42-/m1/s1
+## 4: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14+,21-20+,25-23+/t42-/m1/s1
+## 5: InChI=1S/C44H82NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,42H,6-13,15,17-19,22,24,26-41H2,1-5H3/b16-14-,21-20-,25-23-/t42-/m1/s1
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: LLSOYDYFSWVKOU-ZOVMTBBQSA-N HMDB0008364    89127    53478949
+## 2: YKSVDDIMSQYNID-YYQUKWHJSA-N HMDB0008397    89177    52923221
+## 3: XMZFUVYOYPLVOA-VLHUWQDUSA-N HMDB0007980    86119    24778715
+## 4: SRIGHEHXEGELQJ-GDRFEWIRSA-N        &lt;NA&gt;     &lt;NA&gt;    24778716
+## 5: SRIGHEHXEGELQJ-YYQUKWHJSA-N HMDB0007981    86121    24778719
+##                                                                                                 smiles
+## 1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCC/C=C\\C/C=C\\C/C=C\\CCCCCCCC)=O
+## 2: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCC/C=C\\C/C=C\\C/C=C\\CCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCC/C=C\\C/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 4:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C/C/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C\\C/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 
+## [[9]]
+##           input regno        lm_id                          name
+## 1: PC 16:0_20:4 43965 LMGP01012136 PC(16:0/20:4(8Z,11Z,14Z,17Z))
+## 2: PC 16:0_20:4  2908 LMGP01010629  PC(16:0/20:4(5E,8E,11E,14E))
+## 3: PC 16:0_20:4  3379 LMGP01011049  PC(20:4(5Z,8Z,11Z,14Z)/16:0)
+## 4: PC 16:0_20:4  3386 LMGP01011056 PC(20:4(8E,11E,14E,17E)/16:0)
+##                                                                          sys_name
+## 1: 1-hexadecanoyl-2-(8Z,11Z,14Z,17Z-eicosatetraenoyl)-sn-glycero-3-phosphocholine
+## 2:  1-hexadecanoyl-2-(5E,8E,11E,14E-eicosatetraenoyl)-sn-glycero-3-phosphocholine
+## 3:  1-(5Z,8Z,11Z,14Z-eicosatetraenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+## 4: 1-(8E,11E,14E,17E-eicosatetraenoyl)-2-hexadecanoyl-sn-glycero-3-phosphocholine
+##                                  synonyms  abbrev abbrev_chains
+## 1:                PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 2: PC(16:0/20:4); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 3: PC(20:4/16:0); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+## 4: PC(20:4/16:0); PC(36:4); PC(16:0_20:4) PC 36:4  PC 16:0_20:4
+##                         core                    main_class
+## 1: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 2: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 3: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+## 4: Glycerophospholipids [GP] Glycerophosphocholines [GP01]
+##                                sub_class  exactmass    formula
+## 1: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 2: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 3: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+## 4: Diacylglycerophosphocholines [GP0101] 781.562157 C44H80NO8P
+##                                                                                                                                                                                                                                                                                            inchi
+## 1:     InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h8,10,14,16,20-21,23,25,42H,6-7,9,11-13,15,17-19,22,24,26-41H2,1-5H3/b10-8-,16-14-,21-20-,25-23-/t42-/m1/s1
+## 2: InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-27-29-31-33-35-37-44(47)53-42(41-52-54(48,49)51-39-38-45(3,4)5)40-50-43(46)36-34-32-30-28-26-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,29,31,42H,6-13,15,17-19,22,24,26-28,30,32-41H2,1-5H3/b16-14+,21-20+,25-23+,31-29+/t42-/m1/s1
+## 3: InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h14,16,20-21,23,25,28,30,42H,6-13,15,17-19,22,24,26-27,29,31-41H2,1-5H3/b16-14-,21-20-,25-23-,30-28-/t42-/m1/s1
+## 4:     InChI=1S/C44H80NO8P/c1-6-8-10-12-14-16-18-20-21-22-23-25-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-24-19-17-15-13-11-9-7-2/h8,10,14,16,20-21,23,25,42H,6-7,9,11-13,15,17-19,22,24,26-41H2,1-5H3/b10-8+,16-14+,21-20+,25-23+/t42-/m1/s1
+##                      inchi_key     hmdb_id chebi_id pubchem_cid
+## 1: JAVWFBAAZSHHAD-HCYAGMRRSA-N HMDB0007983    88990    53478669
+## 2: IIZPXYDJLKNOIY-LBKRVYFZSA-N        &lt;NA&gt;    84794    24778721
+## 3: PUDHBQQGURLBGJ-IVFHWKNFSA-N HMDB0008429    77694    24779073
+## 4: JWAPTBDWCHGPTG-JQQBZAOGSA-N        &lt;NA&gt;     &lt;NA&gt;    24779079
+##                                                                                                     smiles
+## 1: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 2:     [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCC/C=C/C/C=C/C/C=C/C/C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CCCCC)=O
+## 4:     [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCC)=O)COC(CCCCCC/C=C/C/C=C/C/C=C/C/C=C/CC)=O
+## 
+## [[10]]
+##           input regno        lm_id                   name
+## 1: PC 18:0_18:2  3056 LMGP01010764 PC(18:0/18:2(10Z,12Z))
+## 2: PC 18:0_18:2  3057 LMGP01010765   PC(18:0/18:2(2E,4E))
+## 3: PC 18:0_18:2  3059 LMGP01010766   PC(18:0/18:2(6Z,9Z))
+## 4: PC 18:0_18:2  3248 LMGP01010935  PC(18:2(9Z,12Z)/18:0)
+## 5: PC 18:0_18:2  3061 LMGP01010768  PC(18:0/18:2(9Z,12Z))
+##                                                                  sys_name
+## 1: 1-octadecanoyl-2-(10Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 2:   1-octadecanoyl-2-(2E,4E-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 3:   1-octadecanoyl-2-(6Z,9Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+## 4:  1-(9Z,12Z-octadecadienoyl)-2-octadecanoyl-sn-glycero-3-phosphocholine
+## 5:  1-octadecanoyl-2-(9Z,12Z-octadecadienoyl)-sn-glycero-3-phosphocholine
+##                                                                                                                                                                                                             synonyms
+## 1:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 2:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 3:                                                                                                                                                                            PC(18:0/18:2); PC(36:2); PC(18:0_18:2)
+## 4:                                                                                                                        1-Linoleoyl-2-stearoyl-sn-glycero-3-phosphocholine; PC(18:2/18:0); PC(36:2); PC(18:0_18:2)
+## 5: 1-Stearoyl-2-linoleoylphosphatidylcholine; 1-Stearoyl-2-linoleoyl-sn-glycero-3-phosphatidylcholine; 1-stearoyl-2-linoleoyl-sn-glycero-3-phosphocholine; Phosphatidylcholine(18:0/18:2w6); PC(36:2); PC(18:0_18:2)
+##     abbrev abbrev_chains                      core
+## 1: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 2: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 3: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 4: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+## 5: PC 36:2  PC 18:0_18:2 Glycerophospholipids [GP]
+##                       main_class                             sub_class
+## 1: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 2: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 3: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 4: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+## 5: Glycerophosphocholines [GP01] Diacylglycerophosphocholines [GP0101]
+##     exactmass    formula
+## 1: 785.593457 C44H84NO8P
+## 2: 785.593457 C44H84NO8P
+## 3: 785.593457 C44H84NO8P
+## 4: 785.593457 C44H84NO8P
+## 5: 785.593457 C44H84NO8P
+##                                                                                                                                                                                                                                                      inchi
+## 1:    InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h15,17,19,21,42H,6-14,16,18,20,22-41H2,1-5H3/b17-15-,21-19-/t42-/m1/s1
+## 2:    InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h31,33,35,37,42H,6-30,32,34,36,38-41H2,1-5H3/b33-31+,37-35+/t42-/m1/s1
+## 3: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h21,23,27,29,42H,6-20,22,24-26,28,30-41H2,1-5H3/b23-21-,29-27-/t42-/m1/s1
+## 4: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h14,16,20,22,42H,6-13,15,17-19,21,23-41H2,1-5H3/b16-14-,22-20-/t42-/m1/s1
+## 5: InChI=1S/C44H84NO8P/c1-6-8-10-12-14-16-18-20-22-24-26-28-30-32-34-36-43(46)50-40-42(41-52-54(48,49)51-39-38-45(3,4)5)53-44(47)37-35-33-31-29-27-25-23-21-19-17-15-13-11-9-7-2/h15,17,21,23,42H,6-14,16,18-20,22,24-41H2,1-5H3/b17-15-,23-21-/t42-/m1/s1
+##                      inchi_key chebi_id pubchem_cid
+## 1: GEBIVJZAMTZGNL-PQZYZDDCSA-N    84819    24778826
+## 2: DTPHOVXVLBUQRC-BIFUJNFHSA-N    84820    24778827
+## 3: PNNRCVLUZNDRRG-SGMTWIHVSA-N    84821    24778828
+## 4: DZPKSVTWWIZUMS-FPUNCOTOSA-N    86112    15378085
+## 5: FORFDCPQKJHEBF-VPUSDGANSA-N    84822     6441487
+##                                                                                             smiles
+## 1:   [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCC/C=C\\C=C/CCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 2:    [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(/C=C/C=C/CCCCCCCCCCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 3: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCC/C=C\\C/C=C\\CCCCCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+## 4: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCCCCCCCCCCCC)=O)COC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O
+## 5: [C@](COP(=O)([O-])OCC[N+](C)(C)C)([H])(OC(CCCCCCC/C=C\\C/C=C\\CCCCC)=O)COC(CCCCCCCCCCCCCCCCC)=O
+##        hmdb_id
+## 1:        &lt;NA&gt;
+## 2:        &lt;NA&gt;
+## 3:        &lt;NA&gt;
+## 4: HMDB0008135
+## 5: HMDB0008039
+## 
+## [[11]]
+## list()
+## 
+## [[12]]
+## list()</code></pre>
 </div>
 <div id="map-uniprot-ids-to-genes" class="section level4">
 <h4>Map UNIPROT IDs to genes</h4>
@@ -2072,8 +3116,9 @@ showresults_CombinePWs</code></pre>
 ## [1] stats     graphics  grDevices datasets  utils     methods   base     
 ## 
 ## other attached packages:
-## [1] SPARQL_1.16        RCurl_1.98-1.12    XML_3.99-0.14      ontologyIndex_2.10
-## [5] webchem_1.2.0      biodbChebi_1.4.0   BridgeDbR_2.8.0    rJava_1.0-6       
+## [1] SPARQL_1.16        RCurl_1.98-1.12    XML_3.99-0.14      data.table_1.14.8 
+## [5] ontologyIndex_2.10 webchem_1.2.0      biodbChebi_1.4.0   BridgeDbR_2.8.0   
+## [9] rJava_1.0-6       
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] progress_1.2.2      tidyselect_1.2.0    xfun_0.38          
@@ -2105,6 +3150,13 @@ showresults_CombinePWs</code></pre>
 Aimo, Lucila, Robin Liechti, Nevila Hyka-Nouspikel, Anne Niknejad, Anne
 Gleizes, Lou Götz, Dmitry Kuznetsov, et al. 2015. <span>“<span class="nocase">The SwissLipids knowledgebase for lipid
 biology</span>.”</span> <em>Bioinformatics</em> 31 (17): 2860–66. <a href="https://doi.org/10.1093/bioinformatics/btv285">https://doi.org/10.1093/bioinformatics/btv285</a>.
+</div>
+<div id="ref-LipidMaps" class="csl-entry">
+Fahy, Eoin, Shankar Subramaniam, Robert C. Murphy, Masahiro Nishijima,
+Christian R. H. Raetz, Takao Shimizu, Friedrich Spener, Gerrit van Meer,
+Michael J. O. Wakelam, and Edward A. Dennis. 2009. <span>“Update of the
+LIPID MAPS Comprehensive Classification System for Lipids.”</span>
+<em>Journal of Lipid Research</em> 50: S9–14. https://doi.org/<a href="https://doi.org/10.1194/jlr.R800095-JLR200">https://doi.org/10.1194/jlr.R800095-JLR200</a>.
 </div>
 <div id="ref-ontologyIndex" class="csl-entry">
 Greene, Daniel, Sylvia Richardson, and Ernest Turro. 2017. <span>“<span class="nocase">ontologyX</span>: A Suite of r Packages for Working with

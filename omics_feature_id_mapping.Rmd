@@ -42,6 +42,7 @@ lipidblast_names <- data.frame(name = c(
 https://identifiers.org/ + Compact URI (CURIE)
 
 Examples:
+
 * https://identifiers.org/hmdb:HMDB0000883
 * https://identifiers.org/CHEBI:86492
 * https://identifiers.org/uniprot:C0JYY2
@@ -76,6 +77,7 @@ tryCatch({
 See https://www.bridgedb.org/pages/system-codes.html for resource codes
 
 Metabolite resources
+
 * Ca	CAS
 * Ce	ChEBI
 * Cs	ChemSpider
@@ -347,11 +349,104 @@ df
 
 LipdBlast names and SwissLipid entity names are no exact matches. How can we assure that the match is correct?
 
+Run on all queries
+
+```{r}
+apply(lipidblast_names, 1, function(row) {
+  term <- row[["name"]]
+  query_url <- paste0(base_url, "search?term=", term, "&type=", NULL)
+  query_result <- curl::curl_fetch_memory(URLencode(query_url))
+  if(query_result$status_code == as.integer(200)) {
+    df <- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+    result <- data.frame(LipidBlast = term,
+                         SwissLipids = df$entity_id,
+                         SwissLipids.name = df$entity_name)
+  } else {
+    result <- data.frame(LipidBlast = term,
+                         SwissLipids = NA,
+                         SwissLipids.name = NA)
+  }
+  result
+})
+```
+
+
+Use SwissLipids API to map to other database IDs
+
+```{r}
+query_url <- paste0(base_url, "mapping?from=SwissLipids&to=LipidMaps&ids=",
+                    "SLM:000063556")
+
+query_result <- curl::curl_fetch_memory(URLencode(query_url))
+
+if(query_result$status_code == as.integer(200)) {
+  df <- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+  df
+}
+
+```
+
+no match - use "children" or "get_subspecies" ?
+
+
 
 
 Are there alternative databases that could be searched? 
+
 * LIPID MAPS REST service https://www.lipidmaps.org/resources/rest
 * `webchem` (development version)
+
+#### Search LipidMaps API
+
+@LipidMaps
+
+https://www.lipidmaps.org/resources/rest
+
+```{r}
+library(data.table)
+base_url <- "https://www.lipidmaps.org/rest/"
+term <- "PC 14:0_14:0"
+term <- gsub(" ", "%2B", term)
+query_url <- paste0(base_url, "compound/abbrev_chains/", term, "/all")
+print(query_url)
+query_result <- curl::curl_fetch_memory(URLencode(query_url))
+
+if(query_result$status_code == as.integer(200)) {
+  df <- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+  if (is.list(df[[1]])) {
+    rbindlist(df, fill = T)
+  } else {
+    data.frame(df)
+  }
+}
+
+
+```
+
+```{r}
+apply(lipidblast_names, 1, function(row) {
+  term <- row[["name"]]
+  print(term)
+  term <- gsub(" ", "%2B", term)
+  query_url <- paste0(base_url, "compound/abbrev_chains/", term, "/all")
+  query_result <- curl::curl_fetch_memory(URLencode(query_url))
+  
+  if(query_result$status_code == as.integer(200)) {
+    df <- jsonlite::fromJSON(rawToChar(query_result$content), flatten = TRUE)
+    if (length(df) > 1) {
+      if (is.list(df[[1]])) {
+        df <- rbindlist(df, fill = T)
+      } else {
+        df <- data.frame(df)
+      }
+    }
+    print(df)
+  }
+  
+})
+```
+
+
 
 #### Map UNIPROT IDs to genes
 
